@@ -26,7 +26,7 @@ package object redis {
   def getNodeTags(nodeId: NodeId) =
     RedisGetStringSet(s"node/${nodeId.value}/tags")
 
-  def node(nodeId: NodeId): RedisCommand[NodeInRedis] =
+  def getNode(nodeId: NodeId): RedisCommand[NodeInRedis] =
     RedisCommand.reduceUnordered(Stream(
       nodeUrl(nodeId).get.map(x => NodeInRedis(url=x)),
       getNodeTags(nodeId).map(x => NodeInRedis(tags=x))
@@ -35,7 +35,7 @@ package object redis {
   val getNodes: RedisCommand[Set[NodeInRedis]] =
     for {
       nodeIds <- nodeIds
-      nodes <- RedisCommand.reduceUnorderedList[NodeInRedis](nodeIds.toSeq.map(node))
+      nodes <- RedisCommand.reduceUnorderedList[NodeInRedis](nodeIds.toSeq.map(getNode))
     } yield nodes.toSet
 
   def getNodeIdToUrlMap: RedisCommand[Map[NodeId, Option[String]]] =
