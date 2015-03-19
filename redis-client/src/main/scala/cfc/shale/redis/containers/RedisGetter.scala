@@ -42,11 +42,11 @@ object RedisGetter {
 
   def gatherUnordered[A](getters: Seq[RedisGetter[A]],
       exceptionCancels: Boolean = false) =
-    RedisGetter.task(redis => Task.gatherUnordered(
+    RedisGetter.task(implicit redis => Task.gatherUnordered(
       getters.map(_.task), exceptionCancels = exceptionCancels))
 
   def reduceUnordered[A, M](tasks: Seq[Task[A]],
       exceptionCancels: Boolean = false)(implicit R: Reducer[A, M]) =
-    RedisGetter.task(redis => Task.reduceUnordered(
+    RedisGetter.task(_ => Task.reduceUnordered(
       tasks, exceptionCancels = exceptionCancels))
 }
