@@ -23,6 +23,11 @@ trait RedisCommand[+A] { self =>
 
 object RedisCommand {
 
+  def now[A](value: A): RedisCommand[A] =
+    new RedisCommand[A] {
+      def task(implicit redis: Redis) = Task.now(value)
+    }
+
   def gatherUnordered[A](commands: Seq[RedisCommand[A]],
       exceptionCancels: Boolean = false) =
     new RedisCommand[List[A]] {

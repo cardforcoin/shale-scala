@@ -27,6 +27,10 @@ object RedisGetter {
     override def getCommand: RedisCommand[A] = command
   }
 
+  def now[A](value: A) = new RedisGetter[A] {
+    override def getCommand = RedisCommand.now(value)
+  }
+
   def gatherUnordered[A](getters: Seq[RedisGetter[A]],
       exceptionCancels: Boolean = false) =
     RedisGetter[List[A]](
