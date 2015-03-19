@@ -19,9 +19,3 @@ libraryDependencies += "org.scalatest" % "scalatest_2.11" % "2.2.1" % "test"
 libraryDependencies += "com.github.nscala-time" % "nscala-time_2.11" % "1.4.0"
 
 libraryDependencies += "com.github.detro.ghostdriver" % "phantomjsdriver" % "1.1.0"
-
-libraryDependencies += "net.debasishg" %% "redisclient" % "2.13"
-
-libraryDependencies += "org.scalaz" %% "scalaz-core" % "7.1.1"
-
-libraryDependencies += "org.scalaz" %% "scalaz-concurrent" % "7.1.1"

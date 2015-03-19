@@ -8,6 +8,8 @@ scalaVersion in ThisBuild := "2.11.1"
 
 scalacOptions in ThisBuild ++= Seq("-deprecation", "-feature")
 
-lazy val lib = project in file("shale-lib")
+lazy val `redis-client` = project in file("redis-client")
 
-lazy val service = project in file("shale-service") dependsOn lib
+lazy val `shale-lib` = project in file("shale-lib") dependsOn `redis-client`
+
+lazy val `shale-service` = project in file("shale-service") dependsOn `shale-lib`
