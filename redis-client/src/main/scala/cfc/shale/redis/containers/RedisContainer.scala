@@ -1,17 +1,20 @@
 package cfc.shale.redis.containers
 
+import cfc.shale.redis.commands.RedisCommand
+
 import scalaz.BijectionT.Bijection
 
-trait RedisContainer[A]
-    extends RedisGetter[A] with RedisSetter[A] { self =>
+trait RedisContainer[A] { self =>
+
+  def get: RedisCommand[A]
+  
+  def set(value: A): RedisCommand[Unit]
 
   def biject[B](implicit bijection: Bijection[A, B]): RedisContainer[B] =
     new RedisContainer[B] {
 
-      override def getCommand =
-        self.getCommand.map(bijection.to)
+      override def get = self.get.map(bijection.to)
 
-      override def setCommand(value: B) =
-        self.setCommand(bijection.from(value))
+      override def set(value: B) = self.set(bijection.from(value))
     }
 }

@@ -1,13 +1,9 @@
 package cfc.shale.redis.commands
 
-import cfc.shale.redis.Redis
-
 import scala.collection.immutable.Set
-import scalaz.concurrent.Task
 
-case class RedisGetStringSet(key: String)
-    extends RedisCommand[Option[Set[Option[String]]]] {
+object RedisGetStringSet {
 
-  override def task(implicit redis: Redis) =
-    Task(redis.clients.withClient(_.smembers(redis.prefix(key))))
+  def apply(key: String): RedisCommand[Set[String]] =
+    RedisGetStringOptionSetOption(key).map(_.getOrElse(Set.empty).flatMap(_.toSet))
 }
