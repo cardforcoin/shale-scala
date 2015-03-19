@@ -12,8 +12,6 @@ libraryDependencies += "io.spray" %%  "spray-json" % "1.2.6"
 libraryDependencies ++= Seq("spray-can", "spray-routing", "spray-client")
   .map(a => "io.spray" % (a + "_2.11") % "1.3.1")
 
-libraryDependencies += "com.typesafe" % "config" % "1.2.1"
-
 libraryDependencies += "org.scalatest" % "scalatest_2.11" % "2.2.1" % "test"
 
 libraryDependencies += "com.github.nscala-time" % "nscala-time_2.11" % "1.4.0"
