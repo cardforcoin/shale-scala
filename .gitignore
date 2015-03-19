@@ -1,0 +1,7 @@
+local.conf
+/libs
+/target
+/project/target
+/project/project/target
+/shale-lib/target
+/shale-service/target
