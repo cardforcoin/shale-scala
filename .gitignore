@@ -3,5 +3,6 @@ local.conf
 /target
 /project/target
 /project/project/target
+/redis-client/target
 /shale-lib/target
 /shale-service/target
