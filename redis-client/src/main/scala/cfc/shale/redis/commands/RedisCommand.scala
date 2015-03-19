@@ -39,8 +39,8 @@ object RedisCommand {
     RedisCommand.task[List[A]](implicit redis => Task.gatherUnordered(
       commands.map(_.task), exceptionCancels = exceptionCancels))
 
-  def reduceUnordered[A, M](tasks: Seq[Task[A]],
+  def reduceUnordered[A, M](commands: Seq[RedisCommand[A]],
       exceptionCancels: Boolean = false)(implicit R: Reducer[A, M]) =
-    RedisCommand.task(_ => Task.reduceUnordered(
-      tasks, exceptionCancels = exceptionCancels))
+    RedisCommand.task(implicit redis => Task.reduceUnordered(
+      commands.map(_.task), exceptionCancels = exceptionCancels))
 }
