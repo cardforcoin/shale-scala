@@ -23,28 +23,24 @@ trait RedisCommand[+A] { self =>
 
 object RedisCommand {
 
-  def now[A](value: A): RedisCommand[A] =
+  /** Create a `RedisCommand` that will evaluate `a` when the task runs. */
+  def apply[A](a: => A): RedisCommand[A] = task(_ => Task(a))
+
+  def task[A](f: Redis => Task[A]): RedisCommand[A] =
     new RedisCommand[A] {
-      def task(implicit redis: Redis) = Task.now(value)
+      override def task(implicit redis: Redis) = f(redis)
     }
+
+  /** Convert a strict value to a `RedisCommand`. */
+  def now[A](value: A): RedisCommand[A] = task(_ => Task.now(value))
 
   def gatherUnordered[A](commands: Seq[RedisCommand[A]],
       exceptionCancels: Boolean = false) =
-    new RedisCommand[List[A]] {
-      override def task(implicit redis: Redis) =
-        Task.gatherUnordered(
-          commands.map(_.task),
-          exceptionCancels = exceptionCancels
-        )
-    }
+    RedisCommand.task[List[A]](redis => Task.gatherUnordered(
+      commands.map(_.task), exceptionCancels = exceptionCancels))
 
   def reduceUnordered[A, M](tasks: Seq[Task[A]],
       exceptionCancels: Boolean = false)(implicit R: Reducer[A, M]) =
-    new RedisCommand[M] {
-      override def task(implicit redis: Redis) =
-        Task.reduceUnordered(
-          tasks,
-          exceptionCancels = exceptionCancels
-        )
-    }
+    RedisCommand.task(redis => Task.reduceUnordered(
+      tasks, exceptionCancels = exceptionCancels))
 }
