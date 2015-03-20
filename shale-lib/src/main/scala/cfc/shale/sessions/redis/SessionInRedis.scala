@@ -9,7 +9,8 @@ case class SessionInRedis(
   reserved: Option[String] = None,
   currentUrl: Option[String] = None,
   browserName: Option[String] = None,
-  nodeId: Option[NodeId] = None
+  nodeId: Option[NodeId] = None,
+  webDriverId: Option[String] = None
 )
 
 object SessionInRedis {
@@ -24,7 +25,8 @@ object SessionInRedis {
         reserved = f2.reserved orElse f1.reserved,
         currentUrl = f2.currentUrl orElse f1.currentUrl,
         browserName = f2.browserName orElse f1.browserName,
-        nodeId = f2.nodeId orElse f1.nodeId
+        nodeId = f2.nodeId orElse f1.nodeId,
+        webDriverId = f2.webDriverId orElse f1.webDriverId
       )
   }
 }

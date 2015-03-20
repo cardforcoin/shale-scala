@@ -2,7 +2,6 @@ package cfc.shale
 package sessions
 
 import cfc.shale.nodes.NodeId
-import cfc.shale.redis.Redis
 import cfc.shale.redis.commands.{RedisCommand, RedisGetStringSet}
 import cfc.shale.redis.containers.RedisContainer.BijectionLifter
 import cfc.shale.redis.containers.{RedisContainer, RedisStringOption}
@@ -29,26 +28,30 @@ package object redis {
     }
     yield nodeUrlOption
 
-  def getTags(sessionId: SessionId)(implicit redis: Redis) =
+  def getTags(sessionId: SessionId) =
     RedisGetStringSet(s"session/${sessionId.value}/tags")
 
-  def reserved(sessionId: SessionId)(implicit redis: Redis) =
+  def reserved(sessionId: SessionId) =
     RedisStringOption(s"session/${sessionId.value}/reserved")
 
-  def currentUrl(sessionId: SessionId)(implicit redis: Redis) =
+  def currentUrl(sessionId: SessionId) =
     RedisStringOption(s"session/${sessionId.value}/current-url")
 
-  def browserName(sessionId: SessionId)(implicit redis: Redis) =
+  def browserName(sessionId: SessionId) =
     RedisStringOption(s"session/${sessionId.value}/browser-name")
 
-  def getSession(sessionId: SessionId)(implicit redis: Redis):
+  def webDriverId(sessionId: SessionId) =
+    RedisStringOption(s"session/${sessionId.value}/webdriver-id")
+
+  def getSession(sessionId: SessionId):
       RedisCommand[SessionInRedis] = {
     RedisCommand.reduceUnordered(Stream(
       nodeId(sessionId).get.map(x => SessionInRedis(nodeId=x)),
       getTags(sessionId).map(x => SessionInRedis(tags=x)),
       reserved(sessionId).get.map(x => SessionInRedis(reserved=x)),
       currentUrl(sessionId).get.map(x => SessionInRedis(currentUrl=x)),
-      browserName(sessionId).get.map(x => SessionInRedis(browserName=x))
+      browserName(sessionId).get.map(x => SessionInRedis(browserName=x)),
+      webDriverId(sessionId).get.map(x => SessionInRedis(webDriverId=x))
     ))(Reducer.identityReducer)
   }
 }
