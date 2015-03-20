@@ -34,18 +34,17 @@ object RedisCommand {
   /** Convert a strict value to a `RedisCommand`. */
   def now[A](value: A): RedisCommand[A] = task(_ => Task.now(value))
 
-  def gatherUnordered[A](commands: Seq[RedisCommand[A]],
-      exceptionCancels: Boolean = false): RedisCommand[List[A]] =
+  def gatherUnordered[A](commands: Seq[RedisCommand[A]]): RedisCommand[List[A]] =
     RedisCommand.task[List[A]](implicit redis => Task.gatherUnordered(
-      commands.map(_.task), exceptionCancels = exceptionCancels))
+      commands.map(_.task), exceptionCancels = true))
 
-  def reduceUnordered[A, M](commands: Seq[RedisCommand[A]],
-      exceptionCancels: Boolean = false)(implicit R: Reducer[A, M]): RedisCommand[M] =
+  def reduceUnordered[A, M](commands: Seq[RedisCommand[A]])
+      (implicit R: Reducer[A, M]): RedisCommand[M] =
     RedisCommand.task(implicit redis => Task.reduceUnordered(
-      commands.map(_.task), exceptionCancels = exceptionCancels))
+      commands.map(_.task), exceptionCancels = true))
 
-  def reduceUnorderedList[A](commands: Seq[RedisCommand[A]],
-      exceptionCancels: Boolean = false)(implicit R: Reducer[A, List[A]]): RedisCommand[List[A]] =
+  def reduceUnorderedList[A](commands: Seq[RedisCommand[A]])
+      (implicit R: Reducer[A, List[A]]): RedisCommand[List[A]] =
     RedisCommand.task(implicit redis => Task.reduceUnordered(
-      commands.map(_.task), exceptionCancels = exceptionCancels))
+      commands.map(_.task), exceptionCancels = true))
 }
