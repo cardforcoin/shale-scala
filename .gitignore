@@ -1,4 +1,5 @@
-local.conf
+/local.conf
+/shale.log
 /libs
 /target
 /project/target
