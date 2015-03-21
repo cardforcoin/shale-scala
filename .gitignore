@@ -5,6 +5,7 @@
 /project/target
 /project/project/target
 /http-client/target
+/interval/target
 /logback-setup/target
 /redis-client/target
 /selenium-client/target

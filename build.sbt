@@ -8,6 +8,8 @@ scalaVersion in ThisBuild := "2.11.1"
 
 scalacOptions in ThisBuild ++= Seq("-deprecation", "-feature")
 
+lazy val `interval` = project in file("interval")
+
 lazy val `redis-client` = project in file("redis-client")
 
 lazy val `http-client` = project in file("http-client")
