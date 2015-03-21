@@ -1,4 +1,4 @@
-package cfc.shale
+package cfc.shale.service
 
 import java.util.concurrent.TimeUnit
 
@@ -7,18 +7,18 @@ import com.typesafe.config.Config
 
 import scala.concurrent.duration._
 
-case class ShaleConfig(
+case class ShaleServiceConfig(
   config: Config,
-  http: ShaleConfig.HttpConfig,
+  http: ShaleServiceConfig.HttpConfig,
   redis: RedisConfig,
-  sessionRefresh: ShaleConfig.RefreshTiming
+  sessionRefresh: ShaleServiceConfig.RefreshTiming
 )
 
-object ShaleConfig {
+object ShaleServiceConfig {
 
   def parse(config: Config) = {
     val x = config.getConfig("cfc.shale")
-    ShaleConfig(
+    ShaleServiceConfig(
       config = config,
       http = HttpConfig.parse(x.getConfig("http")),
       redis = RedisConfig.parse(x.getConfig("redis")),
