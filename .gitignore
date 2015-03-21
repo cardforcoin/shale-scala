@@ -4,6 +4,7 @@ local.conf
 /project/target
 /project/project/target
 /http-client/target
+/logback-setup/target
 /redis-client/target
 /selenium-client/target
 /shale-lib/target

@@ -4,16 +4,14 @@ import ch.qos.logback.classic.LoggerContext
 import ch.qos.logback.classic.encoder.PatternLayoutEncoder
 import ch.qos.logback.classic.spi.ILoggingEvent
 import ch.qos.logback.core.FileAppender
-import com.typesafe.config.Config
 import org.slf4j.Logger.ROOT_LOGGER_NAME
 import org.slf4j.LoggerFactory.{getILoggerFactory, getLogger}
 
 package object logback {
 
-  def init(config: Config): Unit = {
+  def init(path: String): Unit = {
     val log = rootLogger
     log.detachAndStopAllAppenders()
-    val path = config.getString("cfc.shale.log-file")
     log.addAppender(createFileAppender(path))
   }
 
