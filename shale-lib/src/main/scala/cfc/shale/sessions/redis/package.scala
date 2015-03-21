@@ -10,13 +10,13 @@ import scalaz._, Scalaz._
 
 package object redis {
 
-  val getSessionIds = RedisGetStringSet("session-ids").map(_.map(SessionId(_)))
+  val getSessionIds = RedisGetStringSet("session-ids").map(_.map(ShaleSessionId(_)))
 
-  def nodeId(sessionId: SessionId): RedisContainer[Option[NodeId]] =
+  def nodeId(sessionId: ShaleSessionId): RedisContainer[Option[NodeId]] =
     RedisStringOption(s"session/${sessionId.value}/node-id")
       .biject[Option[NodeId]](NodeId.stringBijection.liftInto[Option])
 
-  def getNodeUrl(sessionId: SessionId): RedisCommand[Option[String]] =
+  def getNodeUrl(sessionId: ShaleSessionId): RedisCommand[Option[String]] =
     for {
       nodeIdOption <- nodeId(sessionId).get
       nodeUrlOption <- nodeIdOption match {
@@ -28,22 +28,22 @@ package object redis {
     }
     yield nodeUrlOption
 
-  def getTags(sessionId: SessionId) =
+  def getTags(sessionId: ShaleSessionId) =
     RedisGetStringSet(s"session/${sessionId.value}/tags")
 
-  def reserved(sessionId: SessionId) =
+  def reserved(sessionId: ShaleSessionId) =
     RedisStringOption(s"session/${sessionId.value}/reserved")
 
-  def currentUrl(sessionId: SessionId) =
+  def currentUrl(sessionId: ShaleSessionId) =
     RedisStringOption(s"session/${sessionId.value}/current-url")
 
-  def browserName(sessionId: SessionId) =
+  def browserName(sessionId: ShaleSessionId) =
     RedisStringOption(s"session/${sessionId.value}/browser-name")
 
-  def webDriverId(sessionId: SessionId) =
+  def webDriverId(sessionId: ShaleSessionId) =
     RedisStringOption(s"session/${sessionId.value}/webdriver-id")
 
-  def getSession(sessionId: SessionId):
+  def getSession(sessionId: ShaleSessionId):
       RedisCommand[SessionInRedis] = {
     RedisCommand.reduceUnordered(Stream(
       nodeId(sessionId).get.map(x => SessionInRedis(nodeId=x)),
