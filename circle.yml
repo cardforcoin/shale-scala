@@ -8,6 +8,7 @@ dependencies:
     - "project/project/target"
     - "http-client/target"
     - "redis-client/target"
+    - "selenium-client/target"
     - "shale-lib/target"
     - "shale-service/target"
 
