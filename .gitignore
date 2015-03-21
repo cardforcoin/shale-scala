@@ -7,4 +7,5 @@ local.conf
 /redis-client/target
 /selenium-client/target
 /shale-lib/target
+/shale-http-server/target
 /shale-service/target

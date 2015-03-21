@@ -16,4 +16,6 @@ lazy val `selenium-client` = project in file("selenium-client") dependsOn `http-
 
 lazy val `shale-lib` = project in file("shale-lib") dependsOn (`redis-client`, `selenium-client`)
 
-lazy val `shale-service` = project in file("shale-service") dependsOn `shale-lib`
+lazy val `shale-http-server` = project in file("shale-http-server") dependsOn (`shale-lib`)
+
+lazy val `shale-service` = project in file("shale-service") dependsOn `shale-http-server`
