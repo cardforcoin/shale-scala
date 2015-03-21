@@ -1,3 +1,5 @@
 package cfc.shale
 
-package object selenium extends NodeSessionIdSets with SessionAddresses
+package object selenium
+  extends NodeSessionIdSets
+  with NodeSessionAddressSets
