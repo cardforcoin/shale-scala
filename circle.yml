@@ -6,6 +6,7 @@ dependencies:
     - "target"
     - "project/target"
     - "project/project/target"
+    - "http-client/target"
     - "redis-client/target"
     - "shale-lib/target"
     - "shale-service/target"
