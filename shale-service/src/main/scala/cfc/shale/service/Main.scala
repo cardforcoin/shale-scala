@@ -10,7 +10,7 @@ object Main {
     val config = loadConfig
     cfc.shale.logback.init(config.getString("cfc.shale.log-file"))
     val shaleServiceConfig = ShaleServiceConfig.parse(config)
-    val redis = cfc.shale.redis.getRedis(shaleServiceConfig.redis)
+    val redis = cfc.shale.redis_client.getRedis(shaleServiceConfig.redis)
     val shale = Shale(redis)
 
     BlazeBuilder

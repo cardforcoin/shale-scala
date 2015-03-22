@@ -1,6 +1,6 @@
-package cfc.shale.redis.containers
+package cfc.shale.redis_client.containers
 
-import cfc.shale.redis.commands.RedisCommand
+import cfc.shale.redis_client.commands.RedisCommand
 
 import scala.language.higherKinds
 import scalaz.BijectionT._

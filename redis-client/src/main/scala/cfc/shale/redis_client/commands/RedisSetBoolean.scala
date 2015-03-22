@@ -1,4 +1,4 @@
-package cfc.shale.redis.commands
+package cfc.shale.redis_client.commands
 
 object RedisSetBoolean {
 

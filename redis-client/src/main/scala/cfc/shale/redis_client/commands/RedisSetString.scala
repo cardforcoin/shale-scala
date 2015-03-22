@@ -1,6 +1,6 @@
-package cfc.shale.redis.commands
+package cfc.shale.redis_client.commands
 
-import cfc.shale.redis.Redis
+import cfc.shale.redis_client.Redis
 
 import scalaz.concurrent.Task
 

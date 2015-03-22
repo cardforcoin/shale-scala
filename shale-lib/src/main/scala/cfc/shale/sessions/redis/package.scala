@@ -2,9 +2,9 @@ package cfc.shale
 package sessions
 
 import cfc.shale.nodes.NodeId
-import cfc.shale.redis.commands.{RedisCommand, RedisGetStringSet}
-import cfc.shale.redis.containers.RedisContainer.BijectionLifter
-import cfc.shale.redis.containers.{RedisContainer, RedisStringOption}
+import cfc.shale.redis_client.commands.{RedisCommand, RedisGetStringSet}
+import cfc.shale.redis_client.containers.RedisContainer.BijectionLifter
+import cfc.shale.redis_client.containers.{RedisContainer, RedisStringOption}
 
 import scalaz._, Scalaz._
 

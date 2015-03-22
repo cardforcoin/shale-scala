@@ -2,7 +2,7 @@ package cfc.shale
 
 import com.redis.RedisClientPool
 
-package object redis {
+package object redis_client {
 
   def getRedisClients(config: RedisConfig): RedisClientPool =
     new RedisClientPool(

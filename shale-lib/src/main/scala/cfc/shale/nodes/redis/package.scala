@@ -2,8 +2,8 @@ package cfc.shale
 package nodes
 
 import scalaz._, Scalaz._
-import cfc.shale.redis.commands._
-import cfc.shale.redis.containers._
+import cfc.shale.redis_client.commands._
+import cfc.shale.redis_client.containers._
 
 import scala.collection.immutable.Set
 

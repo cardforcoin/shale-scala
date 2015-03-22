@@ -2,7 +2,7 @@ package cfc.shale.service
 
 import java.util.concurrent.TimeUnit
 
-import cfc.shale.redis.RedisConfig
+import cfc.shale.redis_client.RedisConfig
 import com.typesafe.config.Config
 
 import scala.concurrent.duration._

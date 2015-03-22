@@ -1,6 +1,6 @@
-package cfc.shale.redis.containers
+package cfc.shale.redis_client.containers
 
-import cfc.shale.redis.commands._
+import cfc.shale.redis_client.commands._
 
 class RedisBooleanOption(key: String)
     extends RedisContainer[Option[Boolean]] {

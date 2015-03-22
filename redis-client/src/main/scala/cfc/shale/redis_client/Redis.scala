@@ -1,4 +1,4 @@
-package cfc.shale.redis
+package cfc.shale.redis_client
 
 import com.redis.RedisClientPool
 
