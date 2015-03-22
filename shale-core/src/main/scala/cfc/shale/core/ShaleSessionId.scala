@@ -1,4 +1,4 @@
-package cfc.shale.sessions
+package cfc.shale.core
 
 import scalaz.BijectionT._
 import scalaz.Scalaz._

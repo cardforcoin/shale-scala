@@ -1,6 +1,6 @@
 package cfc.shale.http_server
 
-import cfc.shale.nodes.NodeId
+import cfc.shale.core.NodeId
 
 case class Node(
   nodeId: NodeId,

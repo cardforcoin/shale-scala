@@ -1,7 +1,8 @@
 package cfc.shale
 package sessions
 
-import cfc.shale.nodes.NodeId
+import cfc.shale.core.{ShaleSessionId, NodeId}
+import cfc.shale.redis.Session
 import cfc.shale.redis_client.commands.{RedisCommand, RedisGetStringSet}
 import cfc.shale.redis_client.containers.RedisContainer.BijectionLifter
 import cfc.shale.redis_client.containers.{RedisContainer, RedisStringOption}
@@ -44,14 +45,14 @@ package object redis {
     RedisStringOption(s"session/${sessionId.value}/webdriver-id")
 
   def getSession(sessionId: ShaleSessionId):
-      RedisCommand[SessionInRedis] = {
+      RedisCommand[Session] = {
     RedisCommand.reduceUnordered(Stream(
-      nodeId(sessionId).get.map(x => SessionInRedis(nodeId=x)),
-      getTags(sessionId).map(x => SessionInRedis(tags=x)),
-      reserved(sessionId).get.map(x => SessionInRedis(reserved=x)),
-      currentUrl(sessionId).get.map(x => SessionInRedis(currentUrl=x)),
-      browserName(sessionId).get.map(x => SessionInRedis(browserName=x)),
-      webDriverId(sessionId).get.map(x => SessionInRedis(webDriverId=x))
+      nodeId(sessionId).get.map(x => Session(nodeId=x)),
+      getTags(sessionId).map(x => Session(tags=x)),
+      reserved(sessionId).get.map(x => Session(reserved=x)),
+      currentUrl(sessionId).get.map(x => Session(currentUrl=x)),
+      browserName(sessionId).get.map(x => Session(browserName=x)),
+      webDriverId(sessionId).get.map(x => Session(webDriverId=x))
     ))(Reducer.identityReducer)
   }
 }

@@ -9,6 +9,7 @@
 /logback-setup/target
 /redis-client/target
 /selenium-client/target
+/shale-core/target
 /shale-lib/target
 /shale-http-server/target
 /shale-redis/target

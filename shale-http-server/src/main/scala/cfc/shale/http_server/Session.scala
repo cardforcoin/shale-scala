@@ -1,7 +1,7 @@
 package cfc.shale.http_server
 
+import cfc.shale.core.ShaleSessionId
 import cfc.shale.selenium.SeleniumSessionId
-import cfc.shale.sessions.ShaleSessionId
 
 case class Session(
   sessionId: ShaleSessionId,

@@ -18,9 +18,11 @@ lazy val `logback-setup` = project in file("logback-setup")
 
 lazy val `selenium-client` = project in file("selenium-client") dependsOn `http-client`
 
-lazy val `shale-redis` = project in file("shale-redis") dependsOn `redis-client`
+lazy val `shale-core` = project in file("shale-core")
 
-lazy val `shale-lib` = project in file("shale-lib") dependsOn (`shale-redis`, `selenium-client`)
+lazy val `shale-redis` = project in file("shale-redis") dependsOn (`redis-client`, `shale-core`)
+
+lazy val `shale-lib` = project in file("shale-lib") dependsOn (`shale-core`, `shale-redis`, `selenium-client`)
 
 lazy val `shale-http-server` = project in file("shale-http-server") dependsOn `shale-lib`
 

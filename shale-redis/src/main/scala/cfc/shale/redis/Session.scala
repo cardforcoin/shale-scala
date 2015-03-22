@@ -1,10 +1,10 @@
-package cfc.shale.sessions.redis
+package cfc.shale.redis
 
-import cfc.shale.nodes.NodeId
+import cfc.shale.core.NodeId
 
 import scalaz.Monoid
 
-case class SessionInRedis(
+case class Session(
   tags: Set[String] = Set.empty,
   reserved: Option[String] = None,
   currentUrl: Option[String] = None,
@@ -13,14 +13,14 @@ case class SessionInRedis(
   webDriverId: Option[String] = None
 )
 
-object SessionInRedis {
+object Session {
 
-  implicit val monoid = new Monoid[SessionInRedis] {
+  implicit val monoid = new Monoid[Session] {
 
-    override def zero = SessionInRedis()
+    override def zero = Session()
 
-    override def append(f1: SessionInRedis, f2: => SessionInRedis): SessionInRedis =
-      SessionInRedis(
+    override def append(f1: Session, f2: => Session): Session =
+      Session(
         tags = f1.tags ++ f2.tags,
         reserved = f2.reserved orElse f1.reserved,
         currentUrl = f2.currentUrl orElse f1.currentUrl,

@@ -1,6 +1,7 @@
-package cfc.shale.nodes
+package cfc.shale.core
 
-import scalaz._, Scalaz._, BijectionT._
+import scalaz.BijectionT._
+import scalaz.Scalaz._
 
 case class NodeId(value: String)
 

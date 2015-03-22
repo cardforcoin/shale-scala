@@ -1,6 +1,9 @@
 package cfc.shale
 package nodes
 
+import cfc.shale.core.NodeId
+import cfc.shale.redis.Node
+
 import scalaz._, Scalaz._
 import cfc.shale.redis_client.commands._
 import cfc.shale.redis_client.containers._
@@ -26,16 +29,16 @@ package object redis {
   def getNodeTags(nodeId: NodeId) =
     RedisGetStringSet(s"node/${nodeId.value}/tags")
 
-  def getNode(nodeId: NodeId): RedisCommand[NodeInRedis] =
+  def getNode(nodeId: NodeId): RedisCommand[Node] =
     RedisCommand.reduceUnordered(Stream(
-      nodeUrl(nodeId).get.map(x => NodeInRedis(url=x)),
-      getNodeTags(nodeId).map(x => NodeInRedis(tags=x))
+      nodeUrl(nodeId).get.map(x => Node(url=x)),
+      getNodeTags(nodeId).map(x => Node(tags=x))
     ))(Reducer.identityReducer)
 
-  val getNodes: RedisCommand[Set[NodeInRedis]] =
+  val getNodes: RedisCommand[Set[Node]] =
     for {
       nodeIds <- nodeIds
-      nodes <- RedisCommand.reduceUnorderedList[NodeInRedis](nodeIds.toSeq.map(getNode))
+      nodes <- RedisCommand.reduceUnorderedList[Node](nodeIds.toSeq.map(getNode))
     } yield nodes.toSet
 
   def getNodeIdToUrlMap: RedisCommand[Map[NodeId, Option[String]]] =
