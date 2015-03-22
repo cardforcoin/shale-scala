@@ -1,6 +1,6 @@
 package cfc.shale.service
 
-import cfc.shale.Shale
+import cfc.shale.lib.Shale
 import org.http4s.server.blaze.BlazeBuilder
 
 object Main {
