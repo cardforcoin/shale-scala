@@ -26,6 +26,6 @@ trait NodeSessionIdSets {
   implicit val NodeSessionIdsEntityDecoder: EntityDecoder[NodeSessionIdSet] =
     jsonOf(NodeSessionIdsDecodeJson)
 
-  def getNodeSessionIdSet(node: NodeAddress): Task[NodeSessionIdSet] =
+  def getNodeSessionIdSet(node: SeleniumNodeAddress): Task[NodeSessionIdSet] =
     http_client.get[NodeSessionIdSet](node.uri.resolve(uri("sessions/")))
 }
