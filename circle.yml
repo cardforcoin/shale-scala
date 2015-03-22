@@ -13,6 +13,7 @@ dependencies:
     - "selenium-client/target"
     - "shale-lib/target"
     - "shale-http-server/target"
+    - "shale-redis/target"
     - "shale-service/target"
 
 test:
