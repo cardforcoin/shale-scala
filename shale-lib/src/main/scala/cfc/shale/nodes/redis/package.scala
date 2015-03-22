@@ -19,7 +19,7 @@ package object redis {
 
   def addNodeWithUrl(url: String): RedisCommand[NodeId] =
     for {
-      nodeId <- RedisCommand(generateNodeId())
+      nodeId <- RedisCommand(NodeId.random())
       _ <- nodeUrl(nodeId).set(Some(url)).map(_ => nodeId)
     } yield nodeId
 
