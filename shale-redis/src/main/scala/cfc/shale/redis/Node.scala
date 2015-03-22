@@ -1,9 +1,11 @@
 package cfc.shale.redis
 
+import cfc.shale.core.NodeAddress
+
 import scalaz.Monoid
 
 case class Node(
-  url: Option[String] = None,
+  address: Option[NodeAddress] = None,
   tags: Set[String] = Set.empty
 )
 
@@ -15,7 +17,7 @@ object Node {
 
     override def append(f1: Node, f2: => Node): Node =
       Node(
-        url = f2.url.orElse(f1.url),
+        address = f2.address.orElse(f1.address),
         tags = f1.tags ++ f2.tags
       )
   }
