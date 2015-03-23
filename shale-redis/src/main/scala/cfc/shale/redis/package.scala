@@ -38,20 +38,20 @@ package object redis {
   val getNodes: RedisCommand[Set[Node]] =
     for {
       nodeIds <- nodeIds.get
-      nodes <- RedisCommand.reduceUnorderedList[Node](nodeIds.toSeq.map(getNode))
+      nodes <- RedisCommand.gatherUnordered[Node](nodeIds.toSeq.map(getNode))
     } yield nodes.toSet
 
   def getNodeIdToAddressMap: RedisCommand[Map[NodeId, Option[NodeAddress]]] =
     for {
       nodeIds <- nodeIds.get
-      tuples <- RedisCommand.reduceUnorderedList[(NodeId, Option[NodeAddress])](
+      tuples <- RedisCommand.gatherUnordered[(NodeId, Option[NodeAddress])](
         nodeIds.toSeq.map(nodeId => nodeAddress(nodeId).get.map(address => (nodeId, address))))
     } yield tuples.toMap
 
   val getNodeAddresses: RedisCommand[Set[NodeAddress]] =
     for {
       nodeIds <- nodeIds.get
-      addresses <- RedisCommand.reduceUnorderedList[Option[NodeAddress]](
+      addresses <- RedisCommand.gatherUnordered[Option[NodeAddress]](
         nodeIds.toSeq.map(nodeAddress(_).get))
     } yield addresses.flatMap(_.toStream).toSet
 
