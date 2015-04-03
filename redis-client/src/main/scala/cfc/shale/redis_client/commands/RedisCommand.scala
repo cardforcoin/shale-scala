@@ -1,6 +1,7 @@
 package cfc.shale.redis_client.commands
 
 import cfc.shale.redis_client.Redis
+import com.redis.{RedisClient, RedisClientPool}
 
 import scalaz.Reducer
 import scalaz.concurrent.Task
@@ -25,6 +26,11 @@ object RedisCommand {
 
   /** Create a `RedisCommand` that will evaluate `a` when the task runs. */
   def apply[A](a: => A): RedisCommand[A] = task(_ => Task(a))
+
+  def apply[A](f: Redis => A): RedisCommand[A] =
+    new RedisCommand[A] {
+      override def task(implicit redis: Redis): Task[A] = Task(f(redis))
+    }
 
   def task[A](f: Redis => Task[A]): RedisCommand[A] =
     new RedisCommand[A] {

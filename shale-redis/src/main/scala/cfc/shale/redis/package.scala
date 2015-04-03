@@ -1,6 +1,6 @@
 package cfc.shale
 
-import cfc.shale.core.{NodeAddress, NodeId, ShaleSessionId}
+import cfc.shale.core._
 import cfc.shale.redis_client.commands._
 import cfc.shale.redis_client.containers._
 
@@ -100,4 +100,18 @@ package object redis {
       webDriverId(sessionId).get.map(x => Session(webDriverId=x))
     ))(Reducer.identityReducer)
   }
+
+  def removeReservation(sessionId: ShaleSessionId): RedisCommand[Unit] =
+    RedisCommand.gatherUnordered(Seq(
+      RedisDeleteKeyPrefix(s"session/${sessionId.value}/reservation/")
+    )).map(_ => ())
+
+  def reservationId(sessionId: ShaleSessionId): RedisContainer[ReservationId] =
+    RedisString(s"session/${sessionId.value}/reservation/id").biject
+
+  def reservationReason(sessionId: ShaleSessionId) =
+    RedisStringOption(s"session/${sessionId.value}/reservation/reason")
+
+  def reservationTimeout(sessionId: ShaleSessionId) =
+    RedisDurationOption(s"session/${sessionId.value}/reservation/timeout")
 }
