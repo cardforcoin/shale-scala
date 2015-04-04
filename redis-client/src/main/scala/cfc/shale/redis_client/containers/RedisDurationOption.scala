@@ -9,7 +9,7 @@ import scalaz.Scalaz._
 object RedisDurationOption {
 
   def apply(key: String): RedisContainer[Option[Duration]] =
-    RedisStringOption(key).biject[Option[Duration]]
+    RedisStringOption(key).xmapb(stringBijection)
 
   implicit val stringBijection: Bijection[Option[String], Option[Duration]] =
     bijection[Id, Id, Option[String], Option[Duration]](

@@ -2,7 +2,6 @@ package cfc.shale
 
 import cfc.shale.core.{NodeAddress, NodeId, ShaleSessionId}
 import cfc.shale.redis_client.commands._
-import cfc.shale.redis_client.containers.RedisContainer.BijectionLifter
 import cfc.shale.redis_client.containers._
 
 import scala.collection.immutable.Set
@@ -14,11 +13,12 @@ package object redis {
   // Hack around a bug in IntelliJ
   import cfc.shale.redis.Node
 
-  val nodeIds = RedisStringSet("node-ids").biject[NodeId]
+  val nodeIds: RedisSet[NodeId] =
+    RedisStringSet("node-ids").xmapb(NodeId.stringBijection)
 
   def nodeAddress(nodeId: NodeId): RedisContainer[Option[NodeAddress]] =
     RedisStringOption(s"node/${nodeId.value}/url")
-      .biject[Option[NodeAddress]](NodeAddress.stringBijection.liftInto[Option])
+      .xmapb(NodeAddress.stringBijection.liftInto[Option])
 
   def removeNode(nodeId: NodeId) =
     RedisCommand.gatherUnordered(Seq(
@@ -55,11 +55,12 @@ package object redis {
         nodeIds.toSeq.map(nodeAddress(_).get))
     } yield addresses.flatMap(_.toStream).toSet
 
-  val sessionIds = RedisStringSet("session-ids").biject[ShaleSessionId]
+  val sessionIds: RedisSet[ShaleSessionId] =
+    RedisStringSet("session-ids").xmapb(ShaleSessionId.stringBijection)
 
   def nodeId(sessionId: ShaleSessionId): RedisContainer[Option[NodeId]] =
     RedisStringOption(s"session/${sessionId.value}/node-id")
-      .biject[Option[NodeId]](NodeId.stringBijection.liftInto[Option])
+      .xmapb(NodeId.stringBijection.liftInto[Option])
 
   def getNodeAddress(sessionId: ShaleSessionId): RedisCommand[Option[NodeAddress]] =
     for {
